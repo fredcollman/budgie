@@ -111,6 +111,11 @@ describe SantanderTxtParser do
 			desc = description_for("abc\nDescription: def\nghi")
 			expect(desc).to eq 'def'
 		end
+
+		it 'handles non-standard whitespace' do
+			desc = description_for("Description: non breaking spaces\n".gsub(/ /, "\u00a0"))
+			expect(desc).to eq 'non breaking spaces'
+		end
 	end
 
 	context 'amount' do

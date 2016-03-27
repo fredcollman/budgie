@@ -72,9 +72,8 @@ class SantanderTxtParser
 	end
 
 	def self.parse_line(field, line)
-		line.match(/^\s*#{@@fields[field][0]}: #{@@fields[field][1]}/).tap do |m|
-			raise TransactionParseError, line if m.nil?
-		end
+		m = line.gsub(/[[:space:]]/, ' ').match(/^\s*#{@@fields[field][0]}: #{@@fields[field][1]}/)
+		m or raise TransactionParseError, line
 	end
 end
 
