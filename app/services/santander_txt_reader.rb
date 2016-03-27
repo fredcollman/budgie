@@ -1,30 +1,84 @@
 require 'date'
 
 class SantanderTxtReader
+	def initialize(lines)
+		@lines = lines
+	end
+
 	def self.from_file(filename)
 		self.from_lines(File.foreach(filename))
 	end
 
 	def self.from_lines(lines)
-		SantanderTxtReader.new
+		SantanderTxtReader.new(lines.each)
 	end
 
 	def next
-		SantanderTransaction.new(
-			SantanderTxtParser.parse_description
-		)
+		date = nil
+		while date.nil? do
+			date = SantanderTxtParser.parse_date(@lines.next)
+		end
+		begin
+			description = SantanderTxtParser.parse_description(@lines.next)
+			amount = SantanderTxtParser.parse_amount(@lines.next)
+		rescue StopIteration
+			raise TransactionParseError, 'incomplete transaction'
+		end
+		SantanderTransaction.new(date, description, amount)
+	end
+
+	def each
+		Enumerator.new do |y|
+			loop do
+				y << self.next
+			end
+		end
 	end
 end
 
 class SantanderTxtParser
-	def self.parse_date
+	@@fields = {
+		date: ['Date', '(\d{2})/(\d{2})/(\d{4})'],
+		description: ['Description', '(.*)'],
+		amount: ['Amount', '(-?\d+\.\d+)'],
+	}
+
+	def self.parse_description(text)
+		parse(:description, text) { |m| m[1].strip }
 	end
 
-	def self.parse_description
+	def self.parse_amount(text)
+		parse(:amount, text) { |m| m[1].to_f }
 	end
 
-	def self.parse_amount
+	def self.parse_date(text)
+		parse(:date, text) do |m|
+			begin
+				Date.new(m[3].to_i, m[2].to_i, m[1].to_i)
+			rescue ArgumentError
+				raise TransactionParseError, text
+			end
+		end
+	end
+
+	def self.parse(field, text)
+		m = nil
+		text.each_line do |line|
+			if line.strip.start_with?(@@fields[field][0])
+				m = parse_line(field, line)
+			end
+		end
+		yield m unless m.nil?
+	end
+
+	def self.parse_line(field, line)
+		line.match(/^\s*#{@@fields[field][0]}: #{@@fields[field][1]}/).tap do |m|
+			raise TransactionParseError, line if m.nil?
+		end
 	end
 end
 
-SantanderTransaction = Struct.new(:description)
+class TransactionParseError < Exception
+end
+
+SantanderTransaction = Struct.new(:date, :description, :amount)
