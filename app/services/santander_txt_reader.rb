@@ -5,8 +5,8 @@ class SantanderTxtReader
 		@lines = lines
 	end
 
-	def self.from_file(filename)
-		self.from_lines(File.foreach(filename))
+	def self.from_file(file)
+		self.from_lines(file.each_line)
 	end
 
 	def self.from_lines(lines)
