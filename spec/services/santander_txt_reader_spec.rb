@@ -31,35 +31,21 @@ describe SantanderTxtReader do
 		)
 	end
 
-	it 'produces multiple transactions' do
-		transactions = SantanderTxtReader.from_lines([
-			'Date: 24/03/2016',
-			'Description: newer',
-			'Amount: -100.00',
-			'Balance: 1000.00',
-			'',
-			'Date: 23/03/2016',
-			'Description: older',
-			'Amount: 1500.00',
-			'Balance: 1100.00',			
-		])
-		expect(transactions.next).to eq SantanderTransaction.new(
-			Date.new(2016, 03, 24),
-			'newer',
-			-100.00
-		)
-		expect(transactions.next).to eq SantanderTransaction.new(
-			Date.new(2016, 03, 23),
-			'older',
-			1500.00
-		)
-	end
-
 	it 'errors if transaction is incomplete' do
 		expect {
 			SantanderTxtReader.from_lines([
 				'Date: 24/03/2016',
 				'Description: incomplete',
+			]).next
+		}.to raise_error(TransactionParseError)
+	end
+
+	it 'errors if transaction is invalid' do
+		expect {
+			SantanderTxtReader.from_lines([
+				'Date: 24/03/2016',
+				'not a description',
+				'Amount: 100.00'
 			]).next
 		}.to raise_error(TransactionParseError)
 	end

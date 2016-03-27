@@ -81,4 +81,12 @@ end
 class TransactionParseError < Exception
 end
 
-SantanderTransaction = Struct.new(:date, :description, :amount)
+class SantanderTransaction < Struct.new(:date, :description, :amount)
+	def initialize(date, description, amount)
+		if [date, description, amount].all?
+			super(date, description, amount)
+		else
+			raise TransactionParseError, "date: #{date} description: #{description} amount: #{amount}"
+		end
+	end
+end
