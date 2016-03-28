@@ -3,7 +3,7 @@ require 'rails_helper'
 describe UploadController, type: :controller do
 	context 'upload' do
 		def post_file
-	  	post(:upload, { file: fixture_file_upload('santander.txt', 'text/plain') })
+	  	post :upload, { file: fixture_file_upload('santander.txt', 'text/plain') }
 		end
 
 		def post_invalid_file
@@ -35,6 +35,16 @@ describe UploadController, type: :controller do
 	  it 'shows an error message if the file is invalid' do
 	  	expect { post_invalid_file }.not_to raise_error
 	  	expect(flash[:error]).to include("An error occurred")
+	  end
+
+	  it 'redirects if no file is given' do
+	  	expect { post :upload }.not_to raise_error
+	  	assert_redirected_to(action: :show)
+	  end
+
+	  it 'shows an error message if no file is given' do
+	  	expect { post :upload }.not_to raise_error
+	  	expect(flash[:error]).to include("No file was found")
 	  end
 	end
 end
