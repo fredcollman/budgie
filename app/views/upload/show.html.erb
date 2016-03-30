@@ -1,0 +1,15 @@
+<h1>Upload</h1>
+<p>Select a file of transactions to upload.</p>
+
+<% flash.each do |key, value| %>
+  <%= content_tag :div, value, class: "flash #{key}" %>
+<% end %>
+
+<%= form_for :transaction, url: upload_path do |f| %>
+	<p>
+		<%= f.file_field :file %>
+	</p>
+	<p>
+		<%= f.submit "Upload" %>
+	</p>
+<% end %>
