@@ -45,6 +45,7 @@ group :development do
   gem 'web-console', '~> 2.0'
   gem 'guard-rspec'
   gem 'guard-zeus'
+  gem 'selenium-webdriver'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
