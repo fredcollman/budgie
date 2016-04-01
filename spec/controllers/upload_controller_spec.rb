@@ -3,7 +3,7 @@ require 'rails_helper'
 describe UploadController, type: :controller do
 	context 'upload' do
 		def post_file
-	  	post :upload, { file: fixture_file_upload('santander.txt', 'text/plain') }
+	  	post :upload, { transaction: { file: fixture_file_upload('santander.txt', 'text/plain') } }
 		end
 
 		def post_invalid_file

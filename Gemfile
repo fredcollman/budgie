@@ -46,6 +46,7 @@ group :development do
   gem 'guard-rspec'
   gem 'guard-zeus'
   gem 'selenium-webdriver'
+  gem 'poltergeist'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

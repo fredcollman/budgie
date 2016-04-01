@@ -1,12 +1,14 @@
 class UploadController < ApplicationController
   def upload
-		f = params[:file]
-		if f.nil?
+  	begin
+			f = params.fetch(:transaction).fetch(:file)
+		rescue KeyError
 			flash[:error] = "No file was found"
 			redirect_to action: :show
 		else
 			begin
-				Transaction.insert_many!(SantanderTxtReader.from_file(f))
+				Transaction.insert_many!(SantanderTxtReader.from_file(f.tempfile))
+				flash[:success] = "File uploaded sucessfully"
 				redirect_to '/'
 			rescue TransactionParseError => e
 				flash[:error] = "An error occurred uploading the file: " + e.message
