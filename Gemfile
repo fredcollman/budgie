@@ -47,6 +47,9 @@ group :development do
   gem 'web-console', '~> 2.0'
   gem 'guard-rspec'
   gem 'guard-zeus'
+  gem 'guard-sass'
+  gem 'rack-livereload'
+  gem 'guard-livereload'
   gem 'selenium-webdriver'
 end
 

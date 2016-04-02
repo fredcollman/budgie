@@ -24,6 +24,8 @@
 #  * zeus: 'zeus rspec' (requires the server to be started separately)
 #  * 'just' rspec: 'rspec'
 
+guard 'sass', :input => 'app/assets/stylesheets'
+
 rspec_options = {
   results_file: '/tmp/guard_rspec_results.txt',
   cmd: 'zeus rspec',
@@ -78,7 +80,7 @@ guard :rspec, rspec_options do
 end
 
 zeus_options = {
-  cmd: 'ZEUSSOCK=/tmp/.zeus.sock RAILS_TEST_HELPER=rails_helper zeus start',
+  cmd: 'ZEUSSOCK=/tmp/.zeus.sock RAILS_TEST_HELPER=rails_helper zeus start > /dev/null',
   run_all: false
 }
 
@@ -124,3 +126,43 @@ guard 'zeus', zeus_options do
   # watch(%r|^app/controllers/(.*)\.rb$|) { |m| "test/functional/#{m[1]}_test.rb" }
   # watch(%r|^app/models/(.*)\.rb$|)      { |m| "test/unit/#{m[1]}_test.rb" }
 end
+
+guard 'livereload' do
+  extensions = {
+    css: :css,
+    scss: :css,
+    sass: :css,
+    js: :js,
+    coffee: :js,
+    html: :html,
+    png: :png,
+    gif: :gif,
+    jpg: :jpg,
+    jpeg: :jpeg,
+    # less: :less, # uncomment if you want LESS stylesheets done in browser
+  }
+
+  rails_view_exts = %w(erb haml slim)
+
+  # file types LiveReload may optimize refresh for
+  compiled_exts = extensions.values.uniq
+  watch(%r{public/.+\.(#{compiled_exts * '|'})})
+
+  extensions.each do |ext, type|
+    watch(%r{
+          (?:app|vendor)
+          (?:/assets/\w+/(?<path>[^.]+) # path+base without extension
+           (?<ext>\.#{ext})) # matching extension (must be first encountered)
+          (?:\.\w+|$) # other extensions
+          }x) do |m|
+      path = m[1]
+      "/assets/#{path}.#{type}"
+    end
+  end
+
+  # file needing a full reload of the page anyway
+  watch(%r{app/views/.+\.(#{rails_view_exts * '|'})$})
+  watch(%r{app/helpers/.+\.rb})
+  watch(%r{config/locales/.+\.yml})
+end
+
