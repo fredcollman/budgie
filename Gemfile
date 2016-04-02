@@ -38,6 +38,8 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'cucumber-rails', :require => false
   gem 'database_cleaner'
+  gem 'factory_girl'
+  gem 'poltergeist'
 end
 
 group :development do
@@ -46,7 +48,6 @@ group :development do
   gem 'guard-rspec'
   gem 'guard-zeus'
   gem 'selenium-webdriver'
-  gem 'poltergeist'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
