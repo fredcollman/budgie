@@ -5,6 +5,5 @@ When(/^I upload a \.txt file from Santander$/) do
 end
 
 Then(/^the most recent transactions should be displayed$/) do
-	expect(page).to have_content('File uploaded sucessfully')
-	pending
+	expect(page).to have_content('BANK GIRO CREDIT REF WORK')
 end

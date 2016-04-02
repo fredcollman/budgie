@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
-  post 'upload' => 'upload#upload'
+  root 'home#show'
+  
   get 'upload' => 'upload#show'
+  post 'upload' => 'upload#upload'
 
-  # TODO
-  root 'upload#show'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
