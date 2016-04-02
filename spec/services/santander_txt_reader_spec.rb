@@ -62,7 +62,24 @@ describe SantanderTxtReader do
 			'Amount: 1500.00',
 			'Balance: 1100.00',			
 		])
-		expect(transactions.each.map { |t| t.description }).to eq ['newer', 'older']
+		expect(transactions.map(&:description)).to eq ['newer', 'older']
+	end
+
+	it 'allows iterating with a block' do
+		transactions = SantanderTxtReader.from_lines([
+			'Date: 24/03/2016',
+			'Description: newer',
+			'Amount: -100.00',
+			'Balance: 1000.00',
+			'',
+			'Date: 23/03/2016',
+			'Description: older',
+			'Amount: 1500.00',
+			'Balance: 1100.00',			
+		])
+		amounts = []
+		transactions.each { |t| amounts << t.amount }
+		expect(amounts).to eq [-100.00, 1500.00]
 	end
 
 	it 'throws if going beyond end of iteration' do

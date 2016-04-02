@@ -1,6 +1,8 @@
 require 'date'
 
 class SantanderTxtReader
+	include Enumerable
+	
 	def initialize(lines)
 		@lines = lines
 	end
@@ -28,10 +30,8 @@ class SantanderTxtReader
 	end
 
 	def each
-		Enumerator.new do |y|
-			loop do
-				y << self.next
-			end
+		loop do
+			yield self.next
 		end
 	end
 end
