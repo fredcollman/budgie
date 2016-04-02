@@ -7,6 +7,9 @@ class CustomPlan < Zeus::Rails
   end
 
   def cucumber_environment
+    ::Rails.env = ENV['RAILS_ENV'] = 'test'
+    default_bundle
+
     require 'cucumber/rspec/disable_option_parser'
     require 'cucumber/cli/main'
     @cucumber_runtime = Cucumber::Runtime.new

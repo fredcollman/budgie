@@ -7,7 +7,7 @@ class UploadController < ApplicationController
 			redirect_to action: :show
 		else
 			begin
-				Transaction.insert_many!(SantanderTxtReader.from_file(f.tempfile))
+				Transaction.insert_many!(SantanderTxtReader.from_file(f.tempfile.set_encoding('utf-8')))
 				flash[:success] = "File uploaded sucessfully"
 				redirect_to '/'
 			rescue TransactionParseError => e
