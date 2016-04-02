@@ -18,6 +18,7 @@ describe UploadController, type: :controller do
 	  end
 
 	  it 'can upload a file' do
+	  	allow(Transaction).to receive(:insert_many!)
 	  	expect(SantanderTxtReader).to receive(:from_file)
 	  	post_file
 	  end
