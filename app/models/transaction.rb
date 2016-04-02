@@ -1,4 +1,4 @@
-class Transaction
+class Transaction < ActiveRecord::Base
 	def self.insert_many!(transactions)
 	end
 

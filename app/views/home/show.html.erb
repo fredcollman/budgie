@@ -1,0 +1,17 @@
+<% flash.each do |key, value| %>
+  <%= content_tag :div, value, class: "flash #{key}" %>
+<% end %>
+
+<% if @transactions && @transactions.size > 0 %>
+	<table>
+	<% @transactions.each do |t| %>
+		<tr>
+			<td class="date"><%= t.date %></td>
+			<td class="description"><%= t.description %></td>
+			<td class="amount"><%= t.amount %></td>
+		</tr>
+	<% end %>
+	</table>
+<% else %>
+  <p>No transactions</p>
+<% end %>
