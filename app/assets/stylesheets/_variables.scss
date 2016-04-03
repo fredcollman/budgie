@@ -41,7 +41,7 @@ $primary-color-light: color("light-green", "lighten-1");
 $primary-color-dark: color("light-green", "darken-3");
 
 $secondary-color: color("light-blue", "lighten-2");
-$success-color: color("light-green", "darken-3");
+$success-color: $primary-color-dark;
 $error-color: color("yellow", "darken-3");
 $link-color: $primary-color;
 
@@ -49,3 +49,9 @@ $link-color: $primary-color;
    ========================================================================== */
 
 $navbar-font-color: $off-black;
+
+/* 18. Tables
+   ========================================================================== */
+
+$table-border-color: $link-color;
+$table-striped-color: $primary-color-light;

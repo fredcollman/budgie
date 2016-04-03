@@ -1,12 +1,6 @@
 require 'rails_helper'
 
 describe 'home/show.html.erb' do
-	it 'shows an error if upload failed' do
-		flash.now[:error] = "oh dear"
-		render
-		expect(rendered).to have_css('.error')
-	end
-
 	it 'shows transactions if there are any' do
 		assign(:transactions, [build(:transaction, description: "visible")])
 		render

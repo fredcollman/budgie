@@ -13,8 +13,13 @@ body {
 	flex-direction: column;
 }
 
-nav ul li a:hover {
-	background-color: $primary-color-light;
+nav ul li a {
+  transition: color .3s;
+
+	&:hover {
+		background-color: $primary-color-light;
+		color: $primary-color-dark;
+	}
 }
 
 main {
@@ -28,4 +33,17 @@ footer.page-footer {
     color: $off-black;
     background-color: transparent;
   }
+}
+
+table.striped > tbody > tr:nth-child(odd) {
+	background-color: $primary-color-light;
+}
+
+.error {
+	background-color: $error-color;
+}
+
+.success {
+	background-color: $primary-color-dark;
+	color: $primary-color-light;
 }

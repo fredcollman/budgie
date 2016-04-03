@@ -6,11 +6,4 @@ describe 'upload/show.html.erb' do
 
 		expect(rendered).to have_css('input[type=file]')
 	end
-
-	it 'shows an error if upload failed' do
-		flash.now[:error] = "oh dear"
-		render
-
-		expect(rendered).to have_css('.error')
-	end
 end
