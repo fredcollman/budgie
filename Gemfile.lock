@@ -92,6 +92,8 @@ GEM
       activesupport (>= 3.0.0)
     ffi (1.9.10)
     ffi (1.9.10-x86-mingw32)
+    font-awesome-sass (4.5.0)
+      sass (>= 3.2)
     formatador (0.2.5)
     gherkin (3.2.0)
     globalid (0.3.6)
@@ -282,6 +284,7 @@ DEPENDENCIES
   cucumber-rails
   database_cleaner
   factory_girl
+  font-awesome-sass
   guard-livereload
   guard-rspec
   guard-sass
