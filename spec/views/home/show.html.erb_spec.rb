@@ -18,4 +18,10 @@ describe 'home/show.html.erb' do
 		render
 		expect(rendered).to have_content("No transactions")
 	end
+
+	it 'formats money correctly' do
+		assign(:transactions, [build(:transaction, amount: -123)])
+		render
+		expect(rendered).to have_css(".amount", text: "-£123.00")
+	end
 end

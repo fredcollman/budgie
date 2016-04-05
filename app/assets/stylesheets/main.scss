@@ -57,3 +57,11 @@ table.striped > tbody > tr:nth-child(odd) {
 	background-color: $primary-color-dark;
 	color: $primary-color-light;
 }
+
+td.amount {
+	text-align: right;
+}
+
+th {
+	text-align: center;
+}
