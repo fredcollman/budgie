@@ -1,12 +1,6 @@
 require 'rails_helper'
 
 describe 'home/show.html.erb' do
-	it 'shows an error if upload failed' do
-		flash.now[:error] = "oh dear"
-		render
-		expect(rendered).to have_css('.error')
-	end
-
 	it 'shows transactions if there are any' do
 		assign(:transactions, [build(:transaction, description: "visible")])
 		render
@@ -23,5 +17,17 @@ describe 'home/show.html.erb' do
 		assign(:transactions, [])
 		render
 		expect(rendered).to have_content("No transactions")
+	end
+
+	it 'formats money correctly' do
+		assign(:transactions, [build(:transaction, amount: -123)])
+		render
+		expect(rendered).to have_css(".amount", text: "-£123.00")
+	end
+
+	it 'formats the date correctly' do
+		assign(:transactions, [build(:transaction, date: Date.new(1999, 12, 31))])
+		render
+		expect(rendered).to have_content("31 Dec 1999")
 	end
 end
