@@ -38,6 +38,14 @@ describe Transaction do
 			}.to raise_error(Exception)
 		end
 
+		it 'validates the object' do
+			begin
+				Transaction.insert_many!([build(:transaction, amount: nil)])
+			rescue Exception
+			end
+			expect(Transaction.count).to eq 0
+		end
+
 		it 'includes the balance' do
 			Transaction.insert_many!([build(:transaction, balance: 300.01)])
 			expect(Transaction.first.balance).to eq 300.01
@@ -72,6 +80,56 @@ describe Transaction do
 
 		it 'returns an empty array if there are no results' do
 			expect(Transaction.most_recent(5)).to eq([])
+		end
+	end
+
+	context 'uniqueness' do
+		let(:t1) { build(:transaction,
+			description: 'copied',
+			date: Date.new(2016, 01, 01),
+			amount: 500.00,
+			balance: 1000.00
+		)}
+		let(:t2) { build(:transaction,
+			description: 'copied',
+			date: Date.new(2016, 01, 01),
+			amount: 500.00,
+			balance: 1000.00
+		)}
+
+		it 'permits distinct transactions' do
+			create(:transaction, description: 'one')
+			create(:transaction, description: 'two')
+			expect(Transaction.count).to eq 2
+		end
+
+		it 'prevents duplicate transactions in separate transactions' do
+			t1.save!
+			expect {
+				t2.save!
+			}.to raise_error(ActiveRecord::RecordInvalid)
+		end
+
+		it 'prevents duplicate transactions in the same transaction' do
+			expect {
+				Transaction.insert_many!([t1, t2])
+			}.to raise_error(ActiveRecord::RecordInvalid)
+		end
+
+		it 'permits duplicate descriptions on different dates' do
+			t1.date = Date.new(2016, 01, 01)
+			t2.date = Date.new(2016, 01, 02)
+			t1.save!
+			t2.save!
+			expect(Transaction.count).to eq 2
+		end
+
+		it 'permits duplicate descriptions with different balances' do
+			t1.balance = 500.00
+			t2.balance = 600.00
+			t1.save!
+			t2.save!
+			expect(Transaction.count).to eq 2
 		end
 	end
 end

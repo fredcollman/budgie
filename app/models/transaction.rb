@@ -2,6 +2,7 @@ class Transaction < ActiveRecord::Base
 	validates :date, presence: true
 	validates :description, presence: true
 	validates :amount, presence: true
+	validates :description, uniqueness: { scope: [:date, :balance] }
 
 	def self.insert_many!(transactions)
 		Transaction.transaction do 
