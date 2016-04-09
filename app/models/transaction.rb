@@ -7,12 +7,16 @@ class Transaction < ActiveRecord::Base
 	def self.insert_many!(transactions)
 		Transaction.transaction do 
 			transactions.each do |t| 
-				Transaction.create!({
-					date: t.date,
-					description: t.description,
-					amount: t.amount,
-					balance: t.balance
-				})
+				begin
+					Transaction.create!({
+						date: t.date,
+						description: t.description,
+						amount: t.amount,
+						balance: t.balance
+					})
+				rescue ActiveRecord::RecordInvalid => e
+					raise e unless e.message == "Validation failed: Description has already been taken"
+				end
 			end
 		end
 	end

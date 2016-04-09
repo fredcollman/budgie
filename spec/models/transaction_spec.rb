@@ -46,6 +46,12 @@ describe Transaction do
 			expect(Transaction.count).to eq 0
 		end
 
+		it 'errors if validation fails' do
+			expect {
+				Transaction.insert_many!([build(:transaction, amount: nil)])
+			}.to raise_error(ActiveRecord::RecordInvalid)
+		end
+
 		it 'includes the balance' do
 			Transaction.insert_many!([build(:transaction, balance: 300.01)])
 			expect(Transaction.first.balance).to eq 300.01
@@ -110,10 +116,11 @@ describe Transaction do
 			}.to raise_error(ActiveRecord::RecordInvalid)
 		end
 
-		it 'prevents duplicate transactions in the same transaction' do
-			expect {
-				Transaction.insert_many!([t1, t2])
-			}.to raise_error(ActiveRecord::RecordInvalid)
+		it 'ignores duplicate transactions when bulk inserting' do
+			t3 = build(:transaction, description: 'other')
+			t1.save!
+			Transaction.insert_many!([t2, t3])
+			expect(Transaction.count).to eq 2
 		end
 
 		it 'permits duplicate descriptions on different dates' do
