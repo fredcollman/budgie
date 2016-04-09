@@ -11,12 +11,14 @@ describe SantanderTxtReader do
 		expect(transactions.next).to eq SantanderTransaction.new(
 			Date.new(2016, 03, 24),
 			'something',
-			1500.00
+			1500.00,
+			8366.61
 		)
 	end
 
 	it 'ignores irrelevant lines' do
 		transactions = SantanderTxtReader.from_lines([
+			'Amount: 1200.00',
 			'Balance: 999.99',
 			'',
 			'Date: 24/03/2016',
@@ -24,11 +26,7 @@ describe SantanderTxtReader do
 			'Amount: 1500.00',
 			'Balance: 8366.61',
 		])
-		expect(transactions.next).to eq SantanderTransaction.new(
-			Date.new(2016, 03, 24),
-			'something',
-			1500.00
-		)
+		expect(transactions.next.amount).to eq 1500.00
 	end
 
 	it 'errors if transaction is incomplete' do
@@ -141,12 +139,12 @@ describe SantanderTxtParser do
 		end
 
 		it 'extracts the amount' do
-			amount = amount_for('Amount: 1.99 GBP')
+			amount = amount_for('Amount: 1.99')
 			expect(amount).to eq 1.99
 		end
 
 		it 'extracts negative amounts' do
-			amount = amount_for('Amount: -999.99 GBP')
+			amount = amount_for('Amount: -999.99')
 			expect(amount).to eq -999.99
 		end
 
@@ -176,6 +174,28 @@ describe SantanderTxtParser do
 		it 'errors if the year format is wrong' do
 			expect {
 				date_for('Date: 01/01/01')
+			}.to raise_error(TransactionParseError)
+		end
+	end
+
+	context 'balance' do
+		def balance_for(text)
+			SantanderTxtParser.parse_balance(text)
+		end
+
+		it 'extracts the balance' do
+			balance = balance_for('Balance: 1.99')
+			expect(balance).to eq 1.99
+		end
+
+		it 'extracts negative balances' do
+			balance = balance_for('Balance: -999.99')
+			expect(balance).to eq -999.99
+		end
+
+		it 'errors if the balance is not a number' do
+			expect {
+				balance_for('Balance: nope')
 			}.to raise_error(TransactionParseError)
 		end
 	end

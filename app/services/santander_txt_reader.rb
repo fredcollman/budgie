@@ -23,10 +23,11 @@ class SantanderTxtReader
 		begin
 			description = SantanderTxtParser.parse_description(@lines.next)
 			amount = SantanderTxtParser.parse_amount(@lines.next)
+			balance = SantanderTxtParser.parse_balance(@lines.next)
 		rescue StopIteration
 			raise TransactionParseError, 'incomplete transaction'
 		end
-		SantanderTransaction.new(date, description, amount)
+		SantanderTransaction.new(date, description, amount, balance)
 	end
 
 	def each
@@ -41,6 +42,7 @@ class SantanderTxtParser
 		date: ['Date', '(\d{2})/(\d{2})/(\d{4})'],
 		description: ['Description', '(.*)'],
 		amount: ['Amount', '(-?\d+\.\d+)'],
+		balance: ['Balance', '(-?\d+\.\d+)']
 	}
 
 	def self.parse_description(text)
@@ -59,6 +61,10 @@ class SantanderTxtParser
 				raise TransactionParseError, text
 			end
 		end
+	end
+
+	def self.parse_balance(text)
+		parse(:balance, text) { |m| m[1].to_f }
 	end
 
 	def self.parse(field, text)
@@ -80,12 +86,12 @@ end
 class TransactionParseError < Exception
 end
 
-class SantanderTransaction < Struct.new(:date, :description, :amount)
-	def initialize(date, description, amount)
-		if [date, description, amount].all?
-			super(date, description, amount)
+class SantanderTransaction < Struct.new(:date, :description, :amount, :balance)
+	def initialize(date, description, amount, balance)
+		if [date, description, amount, balance].all?
+			super(date, description, amount, balance)
 		else
-			raise TransactionParseError, "date: #{date} description: #{description} amount: #{amount}"
+			raise TransactionParseError, "SantanderTransaction.new(#{date}, #{description}, #{amount}, #{balance})"
 		end
 	end
 end
