@@ -6,6 +6,7 @@
 				<th class="date-long">Date</th>
 				<th class="amount">Amount</th>
 				<th class="description">Description</th>
+				<th class="balance">Balance</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -15,6 +16,7 @@
 				<td class="date-long"><%= format_date(t.date, :long) %></td>
 				<td class="amount"><%= number_to_currency(t.amount, unit: "£") %></td>
 				<td class="description"><%= t.description %></td>
+				<td class="balance"><%= number_to_currency(t.balance, unit: "£") %></td>
 			</tr>
 		<% end %>
 		</tbody>

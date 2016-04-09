@@ -1,3 +1,5 @@
+include ActionView::Helpers::TextHelper
+
 class UploadController < ApplicationController
   def upload
   	begin
@@ -7,8 +9,11 @@ class UploadController < ApplicationController
 			redirect_to action: :show
 		else
 			begin
-				Transaction.insert_many!(SantanderTxtReader.from_file(f.tempfile.set_encoding('utf-8')))
-				flash[:success] = "File uploaded sucessfully"
+				result = Transaction.insert_many!(SantanderTxtReader.from_file(f.tempfile.set_encoding('utf-8')))
+				flash[:success] = "Uploaded #{pluralize(result[:inserted], 'transaction')}"
+				if (result[:skipped] > 0)
+					flash[:warn] = "Skipped #{pluralize(result[:skipped], 'duplicate transaction')}"
+				end
 				redirect_to '/'
 			rescue TransactionParseError => e
 				flash[:error] = "An error occurred uploading the file: " + e.message
