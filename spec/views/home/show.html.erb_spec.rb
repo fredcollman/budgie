@@ -30,4 +30,10 @@ describe 'home/show.html.erb' do
 		render
 		expect(rendered).to have_content("31 Dec 1999")
 	end
+
+	it 'displays the balance' do
+		assign(:transactions, [build(:transaction, balance: 567.89)])
+		render
+		expect(rendered).to have_content("£567.89")
+	end
 end
