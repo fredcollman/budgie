@@ -1,23 +1,18 @@
 require 'rails_helper'
 
 describe UploadController, type: :controller do
-	context 'upload' do
-		def post_file
-	  	post :upload, { transaction: { file: fixture_file_upload('santander.txt', 'text/plain') } }
-		end
+	def post_file
+  	post :upload, { transaction: { file: fixture_file_upload('santander.txt', 'text/plain') } }
+	end
 
-		def post_invalid_file
-	  	allow(SantanderTxtReader).to receive(:from_file).and_raise(TransactionParseError)
-	  	post_file
-		end
-
-	  it 'accepts a file' do
+	context 'with a valid file' do
+	  it 'redirects home' do
 	  	allow(Transaction).to receive(:insert_many!)
 	  	post_file
 	  	assert_redirected_to('/')
 	  end
 
-	  it 'can upload a file' do
+	  it 'uploads the file' do
 	  	allow(Transaction).to receive(:insert_many!)
 	  	expect(SantanderTxtReader).to receive(:from_file)
 	  	post_file
@@ -27,25 +22,34 @@ describe UploadController, type: :controller do
 	  	expect(Transaction).to receive(:insert_many!)
 	  	post_file
 	  end
+	end
 
-	  it 'redirects if the file is invalid' do
-	  	expect { post_invalid_file }.not_to raise_error
-	  	assert_redirected_to(action: :show)
-	  end
+	context 'with an invalid file' do
+		def post_invalid_file
+	  	allow(SantanderTxtReader).to receive(:from_file).and_raise(TransactionParseError)
+	  	post_file
+		end
 
-	  it 'shows an error message if the file is invalid' do
+	  it 'shows an error message' do
 	  	expect { post_invalid_file }.not_to raise_error
 	  	expect(flash[:error]).to include("An error occurred")
 	  end
 
-	  it 'redirects if no file is given' do
-	  	expect { post :upload }.not_to raise_error
+	  it 'redirects to the form' do
+	  	expect { post_invalid_file }.not_to raise_error
 	  	assert_redirected_to(action: :show)
 	  end
+	end
 
-	  it 'shows an error message if no file is given' do
+	context 'with no file' do
+	  it 'shows an error message' do
 	  	expect { post :upload }.not_to raise_error
 	  	expect(flash[:error]).to include("No file was found")
+	  end
+
+	  it 'redirects to the form' do
+	  	expect { post :upload }.not_to raise_error
+	  	assert_redirected_to(action: :show)
 	  end
 	end
 end
