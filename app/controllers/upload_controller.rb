@@ -9,7 +9,7 @@ class UploadController < ApplicationController
 			redirect_to action: :show
 		else
 			begin
-				result = Transaction.insert_many!(SantanderTxtReader.from_file(f.tempfile.set_encoding('utf-8')))
+				result = Transaction.insert_many!(SantanderTxtReader.from_file(f.tempfile.set_encoding('windows-1252')))
 				flash[:success] = "Uploaded #{pluralize(result[:inserted], 'transaction')}"
 				if (result[:skipped] > 0)
 					flash[:warn] = "Skipped #{pluralize(result[:skipped], 'duplicate transaction')}"
