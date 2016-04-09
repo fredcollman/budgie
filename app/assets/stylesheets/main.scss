@@ -58,6 +58,10 @@ table.striped > tbody > tr:nth-child(odd) {
 	color: $primary-color-light;
 }
 
+.warn {
+	background-color: $primary-color;
+}
+
 $date-format-switch: "only screen and (max-width: 800px)";
 td, th {
 	&.amount {

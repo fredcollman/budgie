@@ -6,6 +6,8 @@ class Transaction < ActiveRecord::Base
 
 	def self.insert_many!(transactions)
 		Transaction.transaction do 
+			inserted = 0
+			skipped = 0
 			transactions.each do |t| 
 				begin
 					Transaction.create!({
@@ -16,8 +18,12 @@ class Transaction < ActiveRecord::Base
 					})
 				rescue ActiveRecord::RecordInvalid => e
 					raise e unless e.message == "Validation failed: Description has already been taken"
+					skipped += 1
+				else
+					inserted += 1
 				end
 			end
+			{ inserted: inserted, skipped: skipped }
 		end
 	end
 

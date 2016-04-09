@@ -6,14 +6,16 @@ describe UploadController, type: :controller do
 	end
 
 	context 'with a valid file' do
+		before(:each) do
+  		allow(Transaction).to receive_messages(insert_many!: {inserted: 1, skipped: 0})
+  	end
+
 	  it 'redirects home' do
-	  	allow(Transaction).to receive(:insert_many!)
 	  	post_file
 	  	assert_redirected_to('/')
 	  end
 
 	  it 'uploads the file' do
-	  	allow(Transaction).to receive(:insert_many!)
 	  	expect(SantanderTxtReader).to receive(:from_file)
 	  	post_file
 	  end
@@ -21,6 +23,24 @@ describe UploadController, type: :controller do
 	  it 'bulk inserts into the database' do
 	  	expect(Transaction).to receive(:insert_many!)
 	  	post_file
+	  end
+
+	  it 'shows how many transactions were uploaded' do
+	  	allow(Transaction).to receive_messages(insert_many!: {inserted: 30, skipped: 0})
+	  	post_file
+	  	expect(flash[:success]).to include('Uploaded 30 transactions')
+	  end
+
+	  it 'shows a warning if transactions were ignored' do
+	  	allow(Transaction).to receive_messages(insert_many!: {inserted: 5, skipped: 1})
+	  	post_file
+	  	expect(flash[:warn]).to include('Skipped 1 duplicate transaction')
+	  end
+
+	  it 'only shows warning if transactions were ignored' do
+	  	allow(Transaction).to receive_messages(insert_many!: {inserted: 5, skipped: 0})
+	  	post_file
+	  	expect(flash[:warn]).to be_nil
 	  end
 	end
 

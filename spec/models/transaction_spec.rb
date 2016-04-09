@@ -56,6 +56,11 @@ describe Transaction do
 			Transaction.insert_many!([build(:transaction, balance: 300.01)])
 			expect(Transaction.first.balance).to eq 300.01
 		end
+
+		it 'returns the number of transactions inserted' do
+			result = Transaction.insert_many!(build_list(:transaction, 3))
+			expect(result[:inserted]).to eq 3
+		end
 	end
 
 	context :most_recent do
@@ -116,13 +121,6 @@ describe Transaction do
 			}.to raise_error(ActiveRecord::RecordInvalid)
 		end
 
-		it 'ignores duplicate transactions when bulk inserting' do
-			t3 = build(:transaction, description: 'other')
-			t1.save!
-			Transaction.insert_many!([t2, t3])
-			expect(Transaction.count).to eq 2
-		end
-
 		it 'permits duplicate descriptions on different dates' do
 			t1.date = Date.new(2016, 01, 01)
 			t2.date = Date.new(2016, 01, 02)
@@ -137,6 +135,25 @@ describe Transaction do
 			t1.save!
 			t2.save!
 			expect(Transaction.count).to eq 2
+		end
+
+		context 'when bulk inserting' do
+			it 'ignores duplicate transactions' do
+				t3 = build(:transaction, description: 'other')
+				t1.save!
+				Transaction.insert_many!([t2, t3])
+				expect(Transaction.count).to eq 2
+			end
+
+			it 'returns the number of transactions skipped' do
+				result = Transaction.insert_many!([t1, t2])
+				expect(result[:skipped]).to eq 1
+			end
+
+			it 'does not count skipped transactions as inserts' do
+				result = Transaction.insert_many!([t1, t2])
+				expect(result[:inserted]).to eq 1
+			end
 		end
 	end
 end
