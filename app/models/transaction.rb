@@ -9,7 +9,8 @@ class Transaction < ActiveRecord::Base
 				Transaction.create!({
 					date: t.date,
 					description: t.description,
-					amount: t.amount
+					amount: t.amount,
+					balance: t.balance
 				})
 			end
 		end

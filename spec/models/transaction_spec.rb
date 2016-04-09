@@ -14,6 +14,11 @@ describe Transaction do
 				}.to raise_error(ActiveRecord::RecordInvalid)
 			end
 		end
+
+		it 'may include a balance' do
+			Transaction.create!(date: Date.today, description: "balance", amount: 0.01, balance: 5.00)
+			expect(Transaction.first.balance).to eq 5.00
+		end
 	end
 
 	context :insert_many! do
@@ -31,6 +36,11 @@ describe Transaction do
 			expect {
 				Transaction.insert_many!(["nope"])
 			}.to raise_error(Exception)
+		end
+
+		it 'includes the balance' do
+			Transaction.insert_many!([build(:transaction, balance: 300.01)])
+			expect(Transaction.first.balance).to eq 300.01
 		end
 	end
 
