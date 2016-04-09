@@ -16,7 +16,7 @@ describe 'home/show.html.erb' do
 	it 'shows a message if there are no transactions' do
 		assign(:transactions, [])
 		render
-		expect(rendered).to have_content("No transactions")
+		expect(rendered).to have_content("No Transactions")
 	end
 
 	it 'formats money correctly' do
