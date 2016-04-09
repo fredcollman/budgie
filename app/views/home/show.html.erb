@@ -2,15 +2,17 @@
 	<table class="striped">
 		<thead>
 			<tr>
-				<th>Date</th>
-				<th>Amount</th>
-				<th>Description</th>
+				<th class="date-short">Date</th>
+				<th class="date-long">Date</th>
+				<th class="amount">Amount</th>
+				<th class="description">Description</th>
 			</tr>
 		</thead>
 		<tbody>
 		<% @transactions.each do |t| %>
 			<tr>
-				<td class="date"><%= t.date %></td>
+				<td class="date-short"><%= format_date(t.date, :short) %></td>
+				<td class="date-long"><%= format_date(t.date, :long) %></td>
 				<td class="amount"><%= number_to_currency(t.amount, unit: "£") %></td>
 				<td class="description"><%= t.description %></td>
 			</tr>

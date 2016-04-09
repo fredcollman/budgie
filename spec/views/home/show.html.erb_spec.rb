@@ -24,4 +24,10 @@ describe 'home/show.html.erb' do
 		render
 		expect(rendered).to have_css(".amount", text: "-£123.00")
 	end
+
+	it 'formats the date correctly' do
+		assign(:transactions, [build(:transaction, date: Date.new(1999, 12, 31))])
+		render
+		expect(rendered).to have_content("31 Dec 1999")
+	end
 end

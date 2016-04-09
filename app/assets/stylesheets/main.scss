@@ -58,10 +58,31 @@ table.striped > tbody > tr:nth-child(odd) {
 	color: $primary-color-light;
 }
 
-td.amount {
-	text-align: right;
-}
+$date-format-switch: "only screen and (max-width: 800px)";
+td, th {
+	&.amount {
+		text-align: right;
+	}
 
-th {
-	text-align: center;
+	&.date-short {
+		text-align: center;
+
+		display: none !important;
+		@media #{$date-format-switch} {
+	    display: table-cell !important;
+	  }
+	}
+
+	&.date-long {
+		text-align: center;
+		min-width: 90px;
+		
+		@media #{$date-format-switch} {
+	    display: none !important;
+	  }
+	}
+
+	&.description {
+		text-align: left;
+	}
 }
