@@ -10,7 +10,7 @@ describe 'home/show.html.erb' do
 	it 'shows multiple transactions' do
 		assign(:transactions, build_list(:transaction, 3))
 		render
-		expect(rendered).to have_css(".amount", count: 3)
+		expect(rendered).to have_css("td.amount", count: 3)
 	end
 
 	it 'shows a message if there are no transactions' do
