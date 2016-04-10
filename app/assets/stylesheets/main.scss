@@ -111,3 +111,11 @@ td, th {
 		color: $input-focus-color;
 	}
 }
+
+.tag {
+	@extend .chip;
+
+	a {
+		color: $off-black;
+	}
+}

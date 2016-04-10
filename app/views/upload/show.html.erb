@@ -3,7 +3,7 @@
 
 <%= form_for :transaction, url: upload_path do |f| %>
   <div class="file-field input-field">
-    <div class="btn waves-effect">
+    <div class="btn waves-effect waves-light">
       <span>File</span>
 			<%= f.file_field :file %>
     </div>
@@ -11,7 +11,7 @@
       <input class="file-path validate" type="text">
     </div>
   </div>
-  <button class="btn waves-effect right" type="submit" name="action">
+  <button class="btn waves-effect waves-light right" type="submit" name="action">
 		Upload
   </button>
 <% end %>
