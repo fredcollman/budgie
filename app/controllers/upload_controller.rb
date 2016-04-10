@@ -23,7 +23,7 @@ class UploadController < ApplicationController
   end
 
   def upload_file(file)
-  	Transaction.insert_many!(SantanderTxtReader.from_file(file.tempfile.set_encoding('windows-1252')))
+  	Transaction.insert_many!(SantanderUploader.upload(file.tempfile))
   end
 
   def show

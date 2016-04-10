@@ -11,7 +11,7 @@ describe UploadController, type: :controller do
 		end
 
 	  it 'uploads the file' do
-	  	expect(SantanderTxtReader).to receive(:from_file)
+	  	expect(SantanderUploader).to receive(:upload)
 	  	upload_fake_file
 	  end
 
