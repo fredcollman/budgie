@@ -28,6 +28,6 @@ class Transaction < ActiveRecord::Base
 	end
 
 	def self.most_recent(count)
-		order(date: :desc).first(count)
+		order(date: :desc, id: :desc).first(count)
 	end
 end

@@ -81,6 +81,7 @@ GEM
     database_cleaner (1.5.1)
     debug_inspector (0.0.2)
     diff-lcs (1.2.5)
+    elif (0.1.0)
     em-websocket (0.5.1)
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0.6.0)
@@ -283,6 +284,7 @@ DEPENDENCIES
   coffee-rails (~> 4.1.0)
   cucumber-rails
   database_cleaner
+  elif
   factory_girl
   font-awesome-sass
   guard-livereload

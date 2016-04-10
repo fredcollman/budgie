@@ -1,62 +1,66 @@
 require 'rails_helper'
 
 describe UploadController, type: :controller do
-	def post_file
-  	post :upload, { transaction: { file: fixture_file_upload('santander.txt', 'text/plain') } }
-	end
+	context '.upload_file' do
+		def upload_fake_file
+	  	subject.upload_file(double("file").as_null_object)
+		end
 
-	context 'with a valid file' do
 		before(:each) do
   		allow(Transaction).to receive_messages(insert_many!: {inserted: 1, skipped: 0})
-  	end
-
-	  it 'redirects home' do
-	  	post_file
-	  	assert_redirected_to('/')
-	  end
+		end
 
 	  it 'uploads the file' do
-	  	expect(SantanderTxtReader).to receive(:from_file)
-	  	post_file
+	  	expect(SantanderUploader).to receive(:upload)
+	  	upload_fake_file
 	  end
 
 	  it 'bulk inserts into the database' do
 	  	expect(Transaction).to receive(:insert_many!)
-	  	post_file
+	  	upload_fake_file
+	  end
+	end
+
+  context 'with a valid file' do
+		def upload_transactions(inserted, skipped)
+	  	allow(subject).to receive_messages(upload_file: {inserted: inserted, skipped: skipped})
+			post :upload, { transaction: { file: nil }}
+		end
+
+	  it 'redirects home' do
+	  	upload_transactions(1, 0)
+	  	assert_redirected_to('/')
 	  end
 
 	  it 'shows how many transactions were uploaded' do
-	  	allow(Transaction).to receive_messages(insert_many!: {inserted: 30, skipped: 0})
-	  	post_file
+	  	upload_transactions(30, 0)
 	  	expect(flash[:success]).to include('Uploaded 30 transactions')
 	  end
 
 	  it 'shows a warning if transactions were ignored' do
-	  	allow(Transaction).to receive_messages(insert_many!: {inserted: 5, skipped: 1})
-	  	post_file
+	  	upload_transactions(5, 1)
 	  	expect(flash[:warn]).to include('Skipped 1 duplicate transaction')
 	  end
 
 	  it 'only shows warning if transactions were ignored' do
-	  	allow(Transaction).to receive_messages(insert_many!: {inserted: 5, skipped: 0})
-	  	post_file
+	  	upload_transactions(5, 0)
 	  	expect(flash[:warn]).to be_nil
 	  end
 	end
 
 	context 'with an invalid file' do
-		def post_invalid_file
-	  	allow(SantanderTxtReader).to receive(:from_file).and_raise(TransactionParseError)
-	  	post_file
+		def upload_invalid_file
+	  	allow(subject).to receive(:upload_file).and_raise(TransactionParseError)
+	  	post :upload, { transaction: { file: nil }}
 		end
 
 	  it 'shows an error message' do
-	  	expect { post_invalid_file }.not_to raise_error
+	  	expect { upload_invalid_file }.not_to raise_error
 	  	expect(flash[:error]).to include("An error occurred")
 	  end
 
 	  it 'redirects to the form' do
-	  	expect { post_invalid_file }.not_to raise_error
+	  	expect { upload_invalid_file }.not_to raise_error
 	  	assert_redirected_to(action: :show)
 	  end
 	end
