@@ -12,5 +12,22 @@ describe TagsController, type: :controller do
 			post :create, { tag: { name: 'redirect' } }
 			assert_redirected_to '/tags/redirect'
 		end
+
+		context 'when the tag already exists' do
+			before(:each) do
+				Tag.create!(name: 'duplicate')
+			end
+
+			it 'reloads the form with the original parameters' do
+				params = { name: 'duplicate', description: 'still here' }
+				post :create, { tag: params }
+				assert_redirected_to new_tag_path(params)
+			end
+
+			it 'shows an error' do
+				post :create, { tag: { name: 'duplicate' } }
+	  		expect(flash[:error]).to eq('Tag "duplicate" already exists')
+	  	end
+		end
 	end
 end
