@@ -36,6 +36,7 @@
    ========================================================================== */
 
 $off-black: rgba(0, 0, 0, 0.87);
+$secondary-text: rgba(0, 0, 0, 0.54);
 $primary-color: color("yellow", "base");
 $primary-color-light: color("light-green", "lighten-1");
 $primary-color-dark: color("light-green", "darken-3");
@@ -49,6 +50,13 @@ $link-color: $primary-color;
    ========================================================================== */
 
 $roboto-font-path: "NOT USED";
+
+/* 10. Forms
+   ========================================================================== */
+
+// Text Inputs + Textarea
+$input-border-color: $primary-color;
+$input-focus-color: $primary-color;
 
 /* 13. Navigation Bar
    ========================================================================== */

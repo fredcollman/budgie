@@ -34,4 +34,9 @@ describe Tag do
 		Tag.create!(name: 'pickle')
 		expect(Tag.names).to eq(['pickle'])
 	end
+
+	it 'can be converted to a slug' do
+		tag = Tag.new(name: 'will be used', description: 'ignored')
+		expect(tag.to_param).to eq 'will-be-used'
+	end
 end

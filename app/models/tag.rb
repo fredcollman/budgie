@@ -11,4 +11,8 @@ class Tag < ActiveRecord::Base
 	def self.names
 		pluck(:name)
 	end
+
+	def to_param
+		name.parameterize
+	end
 end
