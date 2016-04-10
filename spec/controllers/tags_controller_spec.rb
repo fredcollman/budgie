@@ -10,7 +10,7 @@ describe TagsController, type: :controller do
 
 		it "redirects to the tag's page" do
 			post :create, { tag: { name: 'redirect' } }
-			assert_redirected_to '/tags/redirect'
+			assert_redirected_to tag_path('redirect')
 		end
 
 		context 'when the tag already exists' do
@@ -28,6 +28,15 @@ describe TagsController, type: :controller do
 				post :create, { tag: { name: 'duplicate' } }
 	  		expect(flash[:error]).to eq('Tag "duplicate" already exists')
 	  	end
+		end
+	end
+
+	context '.index' do
+		it 'lists the tags' do
+			tags = ['first', 'second'].map { |n| build(:tag, name: n) }
+			allow(Tag).to receive_messages(all: tags)
+			get :index
+			expect(assigns(:tags)).to eq(tags)
 		end
 	end
 end

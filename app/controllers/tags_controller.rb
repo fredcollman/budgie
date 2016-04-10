@@ -18,6 +18,10 @@ class TagsController < ApplicationController
 		@tag = Tag.find_by_name(params[:name])
 	end
 
+	def index
+		@tags = Tag.all
+	end
+
 private
 	def tag_params
 		params.require(:tag).permit(:name, :description)

@@ -1,0 +1,13 @@
+<%= form_for :tag, url: tags_path do |f| %>
+  <div class="input-field">
+    <%= f.label :name %>
+    <%= f.text_field :name, length: 30, required: "required", value: @name %>
+  </div>
+  <div class="input-field">
+    <%= f.label :description %>
+    <%= f.text_area :description, class: "materialize-textarea", value: @description %>
+  </p>
+  <button class="btn waves-effect right" type="submit" name="action">
+		Save
+  </button>
+<% end %>
