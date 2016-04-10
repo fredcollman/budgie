@@ -92,6 +92,20 @@ describe Transaction do
 		it 'returns an empty array if there are no results' do
 			expect(Transaction.most_recent(5)).to eq([])
 		end
+
+		context 'for transactions on the same day' do
+			def create_with_description(description)
+				create(:transaction, date: Date.new(2016, 1, 1), description: description)
+			end
+
+			it 'fetches the most recently inserted transactions' do
+				in_order = ['first', 'second', 'third', 'fourth']
+				in_order.each do |desc|
+					create_with_description(desc)
+				end
+				expect(Transaction.most_recent(4).map(&:description)).to eq(in_order.reverse)
+			end
+		end
 	end
 
 	context 'uniqueness' do
