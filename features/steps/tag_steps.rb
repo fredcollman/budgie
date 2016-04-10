@@ -1,5 +1,10 @@
+Given(/^I am on the home page$/) do
+  visit '/'
+end
+
 When(/^I create a tag "([^"]*)"$/) do |tag|
-  visit '/tags/new'
+	click_link 'Tags'
+	click_link 'New'
   fill_in 'tag[name]', with: tag
   fill_in 'tag[description]', with: 'A tag for testing'
   click_button 'Save'
