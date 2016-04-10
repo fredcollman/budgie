@@ -7,6 +7,10 @@ class TagsController < ApplicationController
 		redirect_to tag_path(@tag)
 	end
 
+	def show
+		@tag = Tag.find_by_name(params[:name])
+	end
+
 private
 	def tag_params
 		params.require(:tag).permit(:name, :description)
