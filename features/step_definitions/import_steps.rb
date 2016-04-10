@@ -12,8 +12,8 @@ When(/^I upload santander.txt$/) do
 	santander_upload
 end
 
-Then(/^the most recent transactions should be displayed$/) do
-	expect(page).to have_content('BANK GIRO CREDIT REF WORK')
+Then(/^the most recent transaction should be displayed first$/) do
+	expect(page).to have_css('tr:first-child', 'BANK GIRO CREDIT REF WORK')
 end
 
 Then(/^0 transactions should be uploaded$/) do
