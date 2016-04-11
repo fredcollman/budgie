@@ -39,4 +39,25 @@ describe TagsController, type: :controller do
 			expect(assigns(:tags)).to eq(tags)
 		end
 	end
+
+	context '.destroy' do
+		before :each do
+			allow(Tag).to receive(:remove!)
+		end
+
+		it 'deletes the tag' do
+			expect(Tag).to receive(:remove!).with('banana')
+			delete :destroy, name: 'banana'
+		end
+
+		it 'shows a success message' do
+			delete :destroy, name: 'success'
+			expect(flash[:success]).to eq("Tag \"success\" has been deleted")
+		end
+
+		it 'redirects to the tags page' do
+			delete :destroy, name: 'whatever'
+			assert_redirected_to tags_path
+		end
+	end
 end

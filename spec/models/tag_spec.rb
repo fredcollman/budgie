@@ -31,12 +31,21 @@ describe Tag do
 	end
 
 	it 'can fetch just names' do
-		Tag.create!(name: 'pickle')
+		create(:tag, name: 'pickle')
 		expect(Tag.names).to eq(['pickle'])
 	end
 
 	it 'can be converted to a slug' do
-		tag = Tag.new(name: 'will be used', description: 'ignored')
+		tag = build(:tag, name: 'will be used')
 		expect(tag.to_param).to eq 'will-be-used'
+	end
+
+	context '.remove' do
+		it 'deletes the tag' do
+			create(:tag, name: 'mytag')
+			expect {
+				Tag.remove!('mytag')
+			}.to change(Tag, :count).by(-1)
+		end
 	end
 end

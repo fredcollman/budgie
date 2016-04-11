@@ -15,4 +15,8 @@ class Tag < ActiveRecord::Base
 	def to_param
 		name.parameterize
 	end
+
+	def self.remove!(name)
+		Tag.find_by_name(name).destroy!
+	end
 end

@@ -22,6 +22,12 @@ class TagsController < ApplicationController
 		@tags = Tag.all
 	end
 
+	def destroy
+		Tag.remove!(params[:name])
+		flash[:success] = "Tag \"#{params[:name]}\" has been deleted"
+		redirect_to tags_path
+	end
+
 private
 	def tag_params
 		params.require(:tag).permit(:name, :description)
