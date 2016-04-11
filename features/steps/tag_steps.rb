@@ -20,9 +20,10 @@ Given(/^I am on the page for the "([^"]*)" tag$/) do |tag|
 end
 
 When(/^I click the delete button$/) do
-  click_button 'Delete'
+  click_link 'Delete'
 end
 
 Then(/^the "([^"]*)" tag is no longer displayed$/) do |tag|
-  expect(page).not_to have_content(tag)
+  expect(page).not_to have_css('.tag', tag)
+  expect(page).to have_content("\"#{tag}\" has been deleted")
 end
