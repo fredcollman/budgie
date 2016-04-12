@@ -67,26 +67,42 @@ describe TagsController, type: :controller do
 	end
 
 	context '.update' do
-		let(:to_update) { double(:to_update, name: 'tag') }
-
-		before :each do
-			allow(Tag).to receive_messages(find_by_name!: to_update)
-			allow(to_update).to receive(:update!)
-		end
-
-		def send_update(params={})
-			patch :update, name: 'tag', tag: params
+		def update(old_name, params)
+			patch :update, name: old_name, tag: params
 		end
 
 		it 'modifies the tag' do
+			to_update = Tag.create!(name: 'and now', description: 'for')
 			params = { name: 'something', description: 'completely different' }
-			expect(to_update).to receive(:update!).with(params)
-			send_update params
+			expect {
+				update 'and now', params
+			}.not_to change(Tag, :count)
+			expect(Tag.first.name).to eq 'something'
 		end
 
 		it 'redirects to the page for that tag' do
-			send_update name: 'different'
+			Tag.create!(name: 'original')
+			update 'original', name: 'different'
 			assert_template :show
+			expect(assigns(:tag).name).to eq 'different'
+		end
+
+		context 'when the name clashes' do
+			before(:each) do
+				Tag.create!(name: 'duplicate')
+				Tag.create!(name: 'original')
+			end
+
+			it 'reloads the form with the original parameters' do
+				update 'original', name: 'duplicate', description: 'still here'
+				assert_template :edit
+				expect(assigns(:tag).name).to eq 'original'
+			end
+
+			it 'shows an error' do
+				update 'original', name: 'duplicate'
+	  		expect(flash[:error]).to eq('A tag with the name "duplicate" already exists')
+	  	end
 		end
 	end
 end

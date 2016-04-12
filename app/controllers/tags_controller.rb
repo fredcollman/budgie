@@ -35,8 +35,14 @@ class TagsController < ApplicationController
 
 	def update
 		@tag = fetch!
-		@tag.update!(tag_params)
-		render :show
+		begin
+			@tag.update!(tag_params)
+			render :show
+		rescue ActiveRecord::RecordInvalid
+			flash.now[:error] = "A tag with the name \"#{@tag.name}\" already exists"
+			@tag = fetch!
+			render :edit
+		end
 	end
 
 private
