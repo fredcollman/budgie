@@ -3,6 +3,6 @@ describe EntriesController do
 		entry = create(:entry)
 		allow(Entry).to receive_messages(find_by_id!: entry)
 		expect(entry).to receive(:tag_with).with('grapefruit')
-		post :tag_entry, entry_id: entry.id, tag_name: 'grapefruit'
+		post :tag_entry, id: entry.id, tag: { name: 'grapefruit' }
 	end
 end
