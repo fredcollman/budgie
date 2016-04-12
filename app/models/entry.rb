@@ -1,4 +1,6 @@
 class Entry < ActiveRecord::Base
+	has_and_belongs_to_many :tags
+
 	validates :date, presence: true
 	validates :description, presence: true
 	validates :amount, presence: true
@@ -32,5 +34,6 @@ class Entry < ActiveRecord::Base
 	end
 
 	def tag_with(tag_name)
+		tags << Tag.find_or_create!(tag_name)
 	end
 end

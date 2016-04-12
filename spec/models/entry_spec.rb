@@ -170,4 +170,23 @@ describe Entry do
 			end
 		end
 	end
+
+	context '.tag_with' do
+		before :each do
+			allow(Tag).to receive_messages(find_or_create!: build(:tag))
+		end
+
+		it 'finds or creates the tag' do
+			e = build(:entry)
+			expect(Tag).to receive(:find_or_create!).with('banana')
+			e.tag_with('banana')
+		end
+
+		it 'tags the entry' do
+			e = build(:entry)
+			expect {
+				e.tag_with('something')
+			}.to change(e.tags, :size).by(1)
+		end
+	end
 end

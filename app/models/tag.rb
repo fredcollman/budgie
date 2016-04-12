@@ -19,4 +19,13 @@ class Tag < ActiveRecord::Base
 	def self.remove!(name)
 		Tag.find_by_name(name).destroy!
 	end
+
+	def self.find_or_create!(name)
+		tag = find_by_name(name)
+		if tag
+			tag
+		else
+			create!(name: name)
+		end
+	end
 end

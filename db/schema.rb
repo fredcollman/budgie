@@ -11,13 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160412160016) do
+ActiveRecord::Schema.define(version: 20160412180043) do
 
   create_table "entries", force: :cascade do |t|
     t.date    "date",                                 null: false
     t.text    "description",                          null: false
     t.decimal "amount",      precision: 8,  scale: 2, null: false
     t.decimal "balance",     precision: 10, scale: 2
+  end
+
+  create_table "entries_tags", id: false, force: :cascade do |t|
+    t.integer "entry_id", null: false
+    t.integer "tag_id",   null: false
   end
 
   create_table "tags", force: :cascade do |t|

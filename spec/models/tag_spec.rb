@@ -48,4 +48,17 @@ describe Tag do
 			}.to change(Tag, :count).by(-1)
 		end
 	end
+
+	context '.find_and_create!' do
+		it 'finds the tag if it exists' do
+			tag = create(:tag, name: 'exists')
+			expect(Tag.find_or_create!('exists')).to eq tag
+		end
+
+		it 'creates the tag if it does not exist' do
+			expect {
+				Tag.find_or_create!('not here')
+				}.to change(Tag, :count).by(1)
+		end
+	end
 end
