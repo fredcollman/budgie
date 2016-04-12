@@ -1,5 +1,6 @@
 class Entry < ActiveRecord::Base
-	has_and_belongs_to_many :tags
+	has_many :taggings, class_name: 'Tagging'
+	has_many :tags, through: :taggings
 
 	validates :date, presence: true
 	validates :description, presence: true

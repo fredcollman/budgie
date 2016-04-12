@@ -188,5 +188,13 @@ describe Entry do
 				e.tag_with('something')
 			}.to change(e.tags, :size).by(1)
 		end
+
+		it 'errors when attempting to add duplicate tags' do
+			e = create(:entry)
+			e.tag_with('first')
+			expect {
+				e.tag_with('first')
+			}.to raise_error(ActiveRecord::RecordInvalid)
+		end
 	end
 end
