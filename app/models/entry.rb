@@ -30,4 +30,7 @@ class Entry < ActiveRecord::Base
 	def self.most_recent(count)
 		order(date: :desc, id: :desc).first(count)
 	end
+
+	def tag_with(tag_name)
+	end
 end
