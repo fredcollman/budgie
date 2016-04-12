@@ -103,3 +103,19 @@ td, th {
 		padding-right: $table-side-padding;
 	}
 }
+
+.input-field label {
+	color: $secondary-text;
+
+	&.active {
+		color: $input-focus-color;
+	}
+}
+
+.tag {
+	@extend .chip;
+
+	a {
+		color: $off-black;
+	}
+}

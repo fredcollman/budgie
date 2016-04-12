@@ -4,4 +4,9 @@ FactoryGirl.define do
 		description "A Transaction"
 		sequence(:amount) { |n| 10*n }
 	end
+
+	factory :tag do
+		sequence(:name) { |n| "tag#{n}" }
+		description "A tag made by FactoryGirl"
+	end
 end

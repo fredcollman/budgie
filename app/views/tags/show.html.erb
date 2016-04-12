@@ -1,0 +1,6 @@
+<div class="right">
+	<%= link_to "Edit", edit_tag_path(@tag), class: "btn waves-effect waves-light" %>
+	<%= link_to "Delete", tag_path(@tag), method: :delete, class: "btn waves-effect waves-light" %>
+</div>
+<h1><%= @tag.name %></h1>
+<%= simple_format(@tag.description, class: "flow-text") %>
