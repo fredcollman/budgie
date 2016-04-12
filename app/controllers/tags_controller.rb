@@ -15,7 +15,7 @@ class TagsController < ApplicationController
 	end
 
 	def show
-		@tag = Tag.find_by_name(params[:name])
+		@tag = fetch!
 	end
 
 	def index
@@ -29,8 +29,22 @@ class TagsController < ApplicationController
 		redirect_to tags_path
 	end
 
+	def edit
+		@tag = fetch!
+	end
+
+	def update
+		@tag = fetch!
+		@tag.update!(tag_params)
+		render :show
+	end
+
 private
 	def tag_params
 		params.require(:tag).permit(:name, :description)
+	end
+
+	def fetch!
+		Tag.find_by_name!(params[:name])
 	end
 end

@@ -4,7 +4,7 @@
     <%= f.text_field :name, length: 30, required: "required" %>
   </div>
   <div class="input-field">
-    <%= f.label :description %>
+    <%= f.label :description, class: ("active" if @tag.description) %>
     <%= f.text_area :description, class: "materialize-textarea" %>
   </p>
   <%= render 'application/submit_button', text: 'Save' %>

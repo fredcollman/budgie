@@ -65,4 +65,28 @@ describe TagsController, type: :controller do
 			assert_redirected_to tags_path
 		end
 	end
+
+	context '.update' do
+		let(:to_update) { double(:to_update, name: 'tag') }
+
+		before :each do
+			allow(Tag).to receive_messages(find_by_name!: to_update)
+			allow(to_update).to receive(:update!)
+		end
+
+		def send_update(params={})
+			patch :update, name: 'tag', tag: params
+		end
+
+		it 'modifies the tag' do
+			params = { name: 'something', description: 'completely different' }
+			expect(to_update).to receive(:update!).with(params)
+			send_update params
+		end
+
+		it 'redirects to the page for that tag' do
+			send_update name: 'different'
+			assert_template :show
+		end
+	end
 end
