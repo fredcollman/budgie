@@ -1,0 +1,11 @@
+<%= form_for @tag do |f| %>
+  <div class="input-field">
+    <%= f.label :name, class: ("active" if @tag.name) %>
+    <%= f.text_field :name, length: 30, required: "required" %>
+  </div>
+  <div class="input-field">
+    <%= f.label :description %>
+    <%= f.text_area :description, class: "materialize-textarea" %>
+  </p>
+  <%= render 'application/submit_button', text: 'Save' %>
+<% end %>

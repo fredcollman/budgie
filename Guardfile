@@ -28,7 +28,7 @@ rspec_options = {
   results_file: '/tmp/guard_rspec_results.txt',
   cmd: 'ZEUSSOCK=/tmp/.zeus.sock RAILS_TEST_HELPER=rails_helper zeus rspec',
   failed_mode: :focus,
-  all_after_pass: true
+  all_after_pass: false
 }
 
 guard :rspec, rspec_options do

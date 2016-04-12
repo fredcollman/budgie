@@ -1,16 +1,16 @@
 class TagsController < ApplicationController
 	def new
-		@name = params[:name]
-		@description = params[:description]
+		@tag = Tag.new
 	end
 
 	def create
+		@tag = Tag.new(tag_params)
 		begin
-			@tag = Tag.create!(tag_params)
+			@tag.save!
 			redirect_to tag_path(@tag)
 		rescue ActiveRecord::RecordInvalid => e
-			flash[:error] = "Tag \"#{tag_params[:name]}\" already exists"
-			redirect_to new_tag_path(tag_params)
+			flash.now[:error] = "Tag \"#{@tag.name}\" already exists"
+			render :new
 		end
 	end
 
@@ -20,6 +20,7 @@ class TagsController < ApplicationController
 
 	def index
 		@tags = Tag.all
+		@tag = Tag.new if @tags.blank?
 	end
 
 	def destroy

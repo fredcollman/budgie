@@ -4,8 +4,9 @@ describe TagsController, type: :controller do
 	context '.create' do
 		it 'adds a tag' do
 			params = { name: 'My Tag', description: 'description goes here' }
-			expect(Tag).to receive(:create!).with(params).and_return(double("tag").as_null_object)
-			post :create, { tag: params }
+			expect {
+				post :create, { tag: params }
+			}.to change(Tag, :count).by(1)
 		end
 
 		it "redirects to the tag's page" do
@@ -21,7 +22,7 @@ describe TagsController, type: :controller do
 			it 'reloads the form with the original parameters' do
 				params = { name: 'duplicate', description: 'still here' }
 				post :create, { tag: params }
-				assert_redirected_to new_tag_path(params)
+				assert_template :new
 			end
 
 			it 'shows an error' do
@@ -33,10 +34,14 @@ describe TagsController, type: :controller do
 
 	context '.index' do
 		it 'lists the tags' do
-			tags = ['first', 'second'].map { |n| build(:tag, name: n) }
-			allow(Tag).to receive_messages(all: tags)
+			expect(Tag).to receive_messages(all: ['something'])
 			get :index
-			expect(assigns(:tags)).to eq(tags)
+		end
+
+		it 'news a tag if there are no tags' do
+			allow(Tag).to receive_messages(all: [])
+			expect(Tag).to receive(:new)
+			get :index
 		end
 	end
 
