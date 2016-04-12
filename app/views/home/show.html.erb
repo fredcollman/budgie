@@ -1,4 +1,4 @@
-<% if @transactions && @transactions.size > 0 %>
+<% if @entries.present? %>
 	<table class="striped">
 		<thead>
 			<tr>
@@ -10,13 +10,13 @@
 			</tr>
 		</thead>
 		<tbody>
-		<% @transactions.each do |t| %>
+		<% @entries.each do |e| %>
 			<tr>
-				<td class="date-short"><%= format_date(t.date, :short) %></td>
-				<td class="date-long"><%= format_date(t.date, :long) %></td>
-				<td class="amount"><%= number_to_currency(t.amount, unit: "£") %></td>
-				<td class="description"><%= t.description %></td>
-				<td class="balance"><%= number_to_currency(t.balance, unit: "£") %></td>
+				<td class="date-short"><%= format_date(e.date, :short) %></td>
+				<td class="date-long"><%= format_date(e.date, :long) %></td>
+				<td class="amount"><%= number_to_currency(e.amount, unit: "£") %></td>
+				<td class="description"><%= e.description %></td>
+				<td class="balance"><%= number_to_currency(e.balance, unit: "£") %></td>
 			</tr>
 		<% end %>
 		</tbody>

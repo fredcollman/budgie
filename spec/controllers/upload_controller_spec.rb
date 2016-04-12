@@ -7,7 +7,7 @@ describe UploadController, type: :controller do
 		end
 
 		before(:each) do
-  		allow(Transaction).to receive_messages(insert_many!: {inserted: 1, skipped: 0})
+  		allow(Entry).to receive_messages(insert_many!: {inserted: 1, skipped: 0})
 		end
 
 	  it 'uploads the file' do
@@ -16,7 +16,7 @@ describe UploadController, type: :controller do
 	  end
 
 	  it 'bulk inserts into the database' do
-	  	expect(Transaction).to receive(:insert_many!)
+	  	expect(Entry).to receive(:insert_many!)
 	  	upload_fake_file
 	  end
 	end
