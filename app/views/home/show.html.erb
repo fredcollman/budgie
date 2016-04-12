@@ -15,7 +15,7 @@
 				<td class="date-short"><%= format_date(e.date, :short) %></td>
 				<td class="date-long"><%= format_date(e.date, :long) %></td>
 				<td class="amount"><%= number_to_currency(e.amount, unit: "£") %></td>
-				<td class="description"><%= e.description %></td>
+				<td class="description"><%= e.description %> <%= render 'tags', entry: e %></td>
 				<td class="balance"><%= number_to_currency(e.balance, unit: "£") %></td>
 			</tr>
 		<% end %>

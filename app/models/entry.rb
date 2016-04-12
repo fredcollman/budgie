@@ -37,4 +37,8 @@ class Entry < ActiveRecord::Base
 	def tag_with(tag_name)
 		tags << Tag.find_or_create!(tag_name)
 	end
+
+	def tag_names
+		tags.names
+	end
 end

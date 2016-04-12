@@ -1,0 +1,7 @@
+<% entry.tag_names.each do |tag| %>
+	<%= link_to tag, tag_path(tag), class: 'tag' %>
+<% end %>
+<%= form_tag(tag_entry_path(entry), method: :post) do %>
+	<%= text_field_tag :name %>
+	<%= submit_tag('+') %>
+<% end %>

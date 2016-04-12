@@ -197,4 +197,13 @@ describe Entry do
 			}.to raise_error(ActiveRecord::RecordInvalid)
 		end
 	end
+
+	context '.tag_names' do
+		it 'lists the tag names in alphabetical order' do
+			e = create(:entry)
+			e.tag_with('zebra')
+			e.tag_with('aardvark')
+			expect(e.tag_names).to eq ['aardvark', 'zebra']
+		end
+	end
 end
