@@ -14,3 +14,11 @@ Feature: Users can add tags to transactions
 		Given I am on the page for the "hello" tag
 		When I rename the tag to "goodbye"
 		Then I am taken to the "goodbye" tag page
+
+	Scenario: User tags a transaction
+		Given the "fruit" tag exists
+		And the transaction "bought some bananas" exists
+		And I am on the home page
+		When I tag the transaction "bought some bananas" with the tag "fruit"
+		And I go to the "fruit" tag page
+		Then I see the transaction "bought some bananas"
