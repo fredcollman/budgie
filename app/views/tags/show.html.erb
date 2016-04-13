@@ -7,7 +7,7 @@
 
 <% if @tag.entries.present? %>
 	<h4>Entries tagged with <%= @tag.name %></h4>
-	<%= render 'entries/table', entries: @tag.entries %>
+	<%= render 'entries/table', entries: @tag.entries, with_tags: false %>
 <% else %>
 	<p>No entries tagged with <span class="chip"><%= @tag.name %></span></p>
 <% end %>

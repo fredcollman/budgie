@@ -1,0 +1,11 @@
+<% entry.tags.each do |tag| %>
+	<%= link_to tag.name, tag_path(tag), class: 'tag' %>
+<% end %>
+<%= form_tag tag_entry_path(entry), method: :post, class: 'hide' do %>
+  <div class="input-field new-tag-name">
+    <%= text_field_tag :name, nil, length: 30, required: 'required' %>
+  </div>
+	<%= submit_tag '+', class: 'add-tag-btn' %>
+	<a href="#" class="cancel-tag-btn" %>x</a>
+<% end %>
+<a href="#" class="new-tag-btn">+</a>
