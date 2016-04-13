@@ -2,5 +2,33 @@
 	<%= link_to "Edit", edit_tag_path(@tag), class: "btn waves-effect waves-light" %>
 	<%= link_to "Delete", tag_path(@tag), method: :delete, class: "btn waves-effect waves-light" %>
 </div>
-<h1><%= @tag.name %></h1>
+<h1>Tag: <%= @tag.name %></h1>
 <%= simple_format(@tag.description, class: "flow-text") %>
+
+<% if @tag.entries.present? %>
+	<h4>Entries tagged with <%= @tag.name %></h4>
+	<table class="striped">
+		<thead>
+			<tr>
+				<th class="date-short">Date</th>
+				<th class="date-long">Date</th>
+				<th class="amount">Amount</th>
+				<th class="description">Description</th>
+				<th class="balance">Balance</th>
+			</tr>
+		</thead>
+		<tbody>
+		<% @tag.entries.each do |e| %>
+			<tr>
+				<td class="date-short"><%= format_date(e.date, :short) %></td>
+				<td class="date-long"><%= format_date(e.date, :long) %></td>
+				<td class="amount"><%= number_to_currency(e.amount, unit: "£") %></td>
+				<td class="description"><%= e.description %></td>
+				<td class="balance"><%= number_to_currency(e.balance, unit: "£") %></td>
+			</tr>
+		<% end %>
+		</tbody>
+	</table>
+<% else %>
+	<p>No entries tagged with <span class="chip"><%= @tag.name %></span></p>
+<% end %>
