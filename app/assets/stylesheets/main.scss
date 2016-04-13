@@ -119,3 +119,21 @@ td, th {
 		color: $off-black;
 	}
 }
+
+.input-field.new-tag-name {
+	display: inline-block;
+	width: 30rem;
+}
+
+.add-tag-btn, .cancel-tag-btn, .new-tag-btn {
+	@extend .chip;
+}
+
+.add-tag-btn {
+	border: none;
+	background-color: $secondary-color;
+}
+
+.cancel-tag-btn {
+	background-color: $error-color;
+}
