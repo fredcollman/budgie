@@ -1,4 +1,7 @@
 class Tag < ActiveRecord::Base
+	has_many :taggings
+	has_many :entries, through: :taggings
+
 	validates :name, 
 		presence: true, 
 		uniqueness: true, 
@@ -27,5 +30,9 @@ class Tag < ActiveRecord::Base
 		else
 			create!(name: name)
 		end
+	end
+
+	def recent_entries(count)
+		entries.most_recent(count)
 	end
 end

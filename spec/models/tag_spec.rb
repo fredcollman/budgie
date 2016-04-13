@@ -61,4 +61,30 @@ describe Tag do
 				}.to change(Tag, :count).by(1)
 		end
 	end
+
+	it 'can fetch entries tagged with this tag' do
+		tag = create(:tag, name: 'something')
+		entries = create_list(:entry, 3, tags: [tag])
+		expect(tag.entries.size).to eq 3
+	end
+
+	context :recent_entries do
+		let (:tag) { create(:tag) }
+
+		before do
+			allow(Entry).to receive(:most_recent) do |n|
+				Entry.all
+			end
+		end
+
+		it 'fetches entries associated with this tag' do
+			entry = create(:entry, tags: [tag])
+			expect(tag.recent_entries(10)).to eq [entry]
+		end
+
+		it 'only fetches entries associated with this tag' do
+			entry = create(:entry, tags: [])
+			expect(tag.recent_entries(10)).to eq []
+		end
+	end
 end
