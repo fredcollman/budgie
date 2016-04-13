@@ -93,6 +93,11 @@ describe Entry do
 			expect(Entry.most_recent(5)).to eq([])
 		end
 
+		it 'can optionally eager-load tags' do
+			e = create(:entry)
+			expect(Entry.most_recent(1, load_tags: true).first.tags).to be_loaded
+		end
+
 		context 'for entries on the same day' do
 			def create_with_description(description)
 				create(:entry, date: Date.new(2016, 1, 1), description: description)

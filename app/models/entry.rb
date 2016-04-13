@@ -30,8 +30,10 @@ class Entry < ActiveRecord::Base
 		end
 	end
 
-	def self.most_recent(count)
-		order(date: :desc, id: :desc).first(count)
+	def self.most_recent(count, load_tags: false)
+		scope = order(date: :desc, id: :desc).limit(count)
+		scope = scope.includes(:tags) if load_tags
+		scope
 	end
 
 	def tag_with(tag_name)

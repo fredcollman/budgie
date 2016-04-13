@@ -1,5 +1,5 @@
-<% entry.tag_names.each do |tag| %>
-	<%= link_to tag, tag_path(tag), class: 'tag' %>
+<% entry.tags.each do |tag| %>
+	<%= link_to tag.name, tag_path(tag), class: 'tag' %>
 <% end %>
 <%= form_tag(tag_entry_path(entry), method: :post) do %>
 	<%= text_field_tag :name %>
