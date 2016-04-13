@@ -54,6 +54,7 @@ group :development do
   gem 'rack-livereload'
   gem 'guard-livereload'
   gem 'selenium-webdriver'
+  gem 'bullet'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
