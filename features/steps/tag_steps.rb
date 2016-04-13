@@ -11,8 +11,8 @@ Given(/^the "([^"]*)" tag exists$/) do |tag|
   Tag.create! name: tag, description: 'the tag exists'
 end
 
-Given(/^the transaction "([^"]*)" exists$/) do |description|
-  Transaction.create! amount: 100.00, description: description, date: Date.today
+Given(/^the entry "([^"]*)" exists$/) do |description|
+  Entry.create! amount: 100.00, description: description, date: Date.today
 end
 
 When(/^I create a tag "([^"]*)"$/) do |tag|
@@ -30,9 +30,12 @@ When(/^I rename the tag to "([^"]*)"$/) do |tag|
   complete_tag_form name: tag
 end
 
-When(/^I tag the transaction "([^"]*)" with the tag "([^"]*)"$/) do |description, tag|
-  find('.description', text: description).find('.new').click
-  fill_in 'add-tag', with: tag
+When(/^I tag the entry "([^"]*)" with the tag "([^"]*)"$/) do |description, tag|
+  within '.description', text: description do
+    find('.new-tag-btn').click
+    fill_in 'name', with: tag
+    find('.add-tag-btn').click
+  end
 end
 
 When(/^I go to the "([^"]*)" tag page$/) do |tag|
@@ -48,7 +51,7 @@ Then(/^the "([^"]*)" tag is no longer displayed$/) do |tag|
   expect(page).to have_content("\"#{tag}\" has been deleted")
 end
 
-Then(/^I see the transaction "([^"]*)"$/) do |description|
+Then(/^I see the entry "([^"]*)"$/) do |description|
   expect(page).to have_content(description)
 end
 
