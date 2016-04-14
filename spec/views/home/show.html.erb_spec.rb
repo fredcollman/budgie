@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 describe 'home/show.html.erb' do
-	it 'shows a message if there are no entries' do
+	it 'shows the no entries view when there are no entries' do
 		assign(:entries, [])
 		render
-		expect(rendered).to have_content("No Transactions")
+		assert_template partial: '_no_entries'
 	end
 end
