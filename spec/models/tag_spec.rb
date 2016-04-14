@@ -47,9 +47,17 @@ describe Tag do
 				Tag.remove!('mytag')
 			}.to change(Tag, :count).by(-1)
 		end
+
+		it 'removes any dependent taggings' do
+			tag = create(:tag, name: 'something')
+			create(:entry, tags: [tag])
+			expect {
+				Tag.remove!('something')
+			}.to change(Tagging, :count).by(-1)
+		end
 	end
 
-	context '.find_and_create!' do
+	context '.find_or_create!' do
 		it 'finds the tag if it exists' do
 			tag = create(:tag, name: 'exists')
 			expect(Tag.find_or_create!('exists')).to eq tag
