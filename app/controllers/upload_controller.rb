@@ -23,7 +23,7 @@ class UploadController < ApplicationController
   end
 
   def upload_file(file)
-  	Transaction.insert_many!(SantanderUploader.upload(file.tempfile))
+  	Entry.insert_many!(SantanderUploader.upload(file.tempfile))
   end
 
   def show

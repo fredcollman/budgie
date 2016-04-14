@@ -1,26 +1,5 @@
-<% if @transactions && @transactions.size > 0 %>
-	<table class="striped">
-		<thead>
-			<tr>
-				<th class="date-short">Date</th>
-				<th class="date-long">Date</th>
-				<th class="amount">Amount</th>
-				<th class="description">Description</th>
-				<th class="balance">Balance</th>
-			</tr>
-		</thead>
-		<tbody>
-		<% @transactions.each do |t| %>
-			<tr>
-				<td class="date-short"><%= format_date(t.date, :short) %></td>
-				<td class="date-long"><%= format_date(t.date, :long) %></td>
-				<td class="amount"><%= number_to_currency(t.amount, unit: "£") %></td>
-				<td class="description"><%= t.description %></td>
-				<td class="balance"><%= number_to_currency(t.balance, unit: "£") %></td>
-			</tr>
-		<% end %>
-		</tbody>
-	</table>
+<% if @entries.present? %>
+	<%= render 'entries/table', entries: @entries, with_tags: true %>
 <% else %>
-  <%= render 'no_transactions' %>
+  <%= render 'no_entries' %>
 <% end %>

@@ -6,6 +6,12 @@ Rails.application.routes.draw do
 
   resources :tags, param: :name
 
+  resources :entries, only: [] do
+    member do
+      post 'tags', to: 'entries#tag_entry', as: :tag
+    end
+  end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

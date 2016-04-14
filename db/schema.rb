@@ -11,7 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160410161646) do
+ActiveRecord::Schema.define(version: 20160412202455) do
+
+  create_table "entries", force: :cascade do |t|
+    t.date    "date",                                 null: false
+    t.text    "description",                          null: false
+    t.decimal "amount",      precision: 8,  scale: 2, null: false
+    t.decimal "balance",     precision: 10, scale: 2
+  end
+
+  create_table "entries_tags", id: false, force: :cascade do |t|
+    t.integer "entry_id", null: false
+    t.integer "tag_id",   null: false
+  end
+
+  add_index "entries_tags", ["entry_id", "tag_id"], name: "index_entries_tags_on_entry_id_and_tag_id", unique: true
 
   create_table "tags", force: :cascade do |t|
     t.string "name",        limit: 30, null: false
@@ -19,12 +33,5 @@ ActiveRecord::Schema.define(version: 20160410161646) do
   end
 
   add_index "tags", ["name"], name: "index_tags_on_name"
-
-  create_table "transactions", force: :cascade do |t|
-    t.date    "date",                                 null: false
-    t.text    "description",                          null: false
-    t.decimal "amount",      precision: 8,  scale: 2, null: false
-    t.decimal "balance",     precision: 10, scale: 2
-  end
 
 end

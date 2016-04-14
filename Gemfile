@@ -25,6 +25,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'font-awesome-sass'
 gem 'elif'
+gem 'composite_primary_keys'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -54,6 +55,7 @@ group :development do
   gem 'rack-livereload'
   gem 'guard-livereload'
   gem 'selenium-webdriver'
+  gem 'bullet'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

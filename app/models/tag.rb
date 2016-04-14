@@ -1,4 +1,7 @@
 class Tag < ActiveRecord::Base
+	has_many :taggings, dependent: :destroy
+	has_many :entries, through: :taggings
+
 	validates :name, 
 		presence: true, 
 		uniqueness: true, 
@@ -18,5 +21,18 @@ class Tag < ActiveRecord::Base
 
 	def self.remove!(name)
 		Tag.find_by_name(name).destroy!
+	end
+
+	def self.find_or_create!(name)
+		tag = find_by_name(name)
+		if tag
+			tag
+		else
+			create!(name: name)
+		end
+	end
+
+	def recent_entries(count)
+		entries.most_recent(count)
 	end
 end

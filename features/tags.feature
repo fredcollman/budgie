@@ -1,4 +1,4 @@
-Feature: Users can add tags to transactions
+Feature: Users can add tags to entries
 
 	Scenario: User creates tag
 		Given I am on the home page
@@ -14,3 +14,11 @@ Feature: Users can add tags to transactions
 		Given I am on the page for the "hello" tag
 		When I rename the tag to "goodbye"
 		Then I am taken to the "goodbye" tag page
+
+	Scenario: User tags an entry
+		Given the "fruit" tag exists
+		And the entry "bought some bananas" exists
+		And I am on the home page
+		When I tag the entry "bought some bananas" with the tag "fruit"
+		And I go to the "fruit" tag page
+		Then I see the entry "bought some bananas"

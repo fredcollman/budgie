@@ -1,12 +1,3 @@
 <%= link_to "New", new_tag_path, class: "btn-large right waves-effect waves-light" %>
 <h1>Tags</h1>		
-
-<% if @tags.present? %>
-	<% @tags.each do |tag| %>
-		<div class="tag"><%= link_to tag.name, tag_path(tag) %></div>
-	<% end %>
-<% else %>
-	<p>Tags can be used to group related transactions. Currently there are no tags.</p>
-	<p>Use the form below to create a new tag.</p>
-	<%= render 'form' %>
-<% end %>
+<%= render(@tags) || render('no_tags') %>

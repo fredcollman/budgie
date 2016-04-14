@@ -1,7 +1,7 @@
 FactoryGirl.define do
-	factory :transaction do
+	factory :entry do
 		sequence(:date) { |n| n.days.ago }
-		description "A Transaction"
+		description "An entry made by FactoryGirl"
 		sequence(:amount) { |n| 10*n }
 	end
 
