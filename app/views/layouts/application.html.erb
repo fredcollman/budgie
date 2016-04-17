@@ -8,7 +8,18 @@
 </head>
 <body>
 
-<%= yield %>
+<header>
+	<%= render 'layouts/header' %>
+</header>
+<main>
+	<div class="container">
+		<%= render 'layouts/flash' %>
+		<%= yield %>
+	</div>
+</main>
+<footer class="page-footer">
+	<%= render 'layouts/footer' %>
+</footer>
 
 </body>
 </html>

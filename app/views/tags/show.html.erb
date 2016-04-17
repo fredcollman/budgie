@@ -1,0 +1,13 @@
+<div class="right">
+	<%= link_to "Edit", edit_tag_path(@tag), class: "btn waves-effect waves-light" %>
+	<%= link_to "Delete", tag_path(@tag), method: :delete, class: "btn waves-effect waves-light" %>
+</div>
+<h1>Tag: <%= @tag.name %></h1>
+<%= simple_format(@tag.description, class: "flow-text") %>
+
+<% if @tag.entries.present? %>
+	<h4>Entries tagged with <%= @tag.name %></h4>
+	<%= render 'entries/table', entries: @tag.entries, with_tags: false %>
+<% else %>
+	<p>No entries tagged with <span class="chip"><%= @tag.name %></span></p>
+<% end %>

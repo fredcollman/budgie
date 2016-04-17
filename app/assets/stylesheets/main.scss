@@ -1,0 +1,150 @@
+@import "materialize/components/color";
+@import "variables";
+@import "materialize/materialize";
+
+@import "font-awesome-sprockets";
+@import "font-awesome";
+
+@import "fonts";
+
+html {
+	font-family: Asap, GillSans, Calibri, Trebuchet, sans-serif;
+}
+
+body {
+	@extend .light-green;
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
+}
+
+nav ul li a {
+  transition: color .3s;
+
+	&:hover {
+		background-color: $primary-color-light;
+		color: $primary-color-dark;
+	}
+}
+
+.brand-logo {
+	font-weight: 700;
+	font-style: italic;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+.floating-title {
+	padding-top: 6rem;
+	font-size: 5rem;
+}
+
+footer.page-footer {
+  padding-top: 0;
+
+  .footer-copyright {
+    color: $off-black;
+    background-color: transparent;
+  }
+
+  a {
+  	color: $off-black;
+	  transition: color .3s;
+	  padding: 0 15px;
+
+  	&:hover {
+			background-color: $primary-color-light;
+			color: $primary-color-dark;  		
+  	}
+  }
+}
+
+table.striped > tbody > tr:nth-child(odd) {
+	background-color: $primary-color-light;
+}
+
+.error {
+	background-color: $error-color;
+}
+
+.success {
+	background-color: $primary-color-dark;
+	color: $primary-color-light;
+}
+
+.warn {
+	background-color: $primary-color;
+}
+
+$date-format-switch: "only screen and (max-width: 900px)";
+$table-side-padding: 0.75rem;
+td, th {
+	&.amount {
+		text-align: right;
+	}
+
+	&.date-short {
+		text-align: left;
+		padding-left: $table-side-padding;
+
+		display: none !important;
+		@media #{$date-format-switch} {
+	    display: table-cell !important;
+	  }
+	}
+
+	&.date-long {
+		text-align: left;
+		min-width: 100px;
+		padding-left: $table-side-padding;
+		
+		@media #{$date-format-switch} {
+	    display: none !important;
+	  }
+	}
+
+	&.description {
+		text-align: left;
+	}
+
+	&.balance {
+		text-align: right;
+		padding-right: $table-side-padding;
+	}
+}
+
+.input-field label {
+	color: $secondary-text;
+
+	&.active {
+		color: $input-focus-color;
+	}
+}
+
+.tag {
+	@extend .chip;
+
+	a {
+		color: $off-black;
+	}
+}
+
+.input-field.new-tag-name {
+	display: inline-block;
+	width: 30rem;
+}
+
+.add-tag-btn, .cancel-tag-btn, .new-tag-btn {
+	@extend .chip;
+}
+
+.add-tag-btn {
+	border: none;
+	background-color: $secondary-color;
+}
+
+.cancel-tag-btn {
+	background-color: $error-color;
+}

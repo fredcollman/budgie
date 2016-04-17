@@ -1,0 +1,7 @@
+<tr>
+	<td class="date-short"><%= format_date(entry.date, :short) %></td>
+	<td class="date-long"><%= format_date(entry.date, :long) %></td>
+	<td class="amount"><%= number_to_currency(entry.amount, unit: "£") %></td>
+	<td class="description"><%= entry.description %> <%= render partial: 'entries/tags', locals: { entry: entry } if with_tags %></td>
+	<td class="balance"><%= number_to_currency(entry.balance, unit: "£") %></td>
+</tr>

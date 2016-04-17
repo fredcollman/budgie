@@ -1,0 +1,15 @@
+<h1>Upload</h1>
+<p>Select a file of transactions to upload.</p>
+
+<%= form_for :transaction, url: upload_path do |f| %>
+  <div class="file-field input-field">
+    <div class="btn waves-effect waves-light">
+      <span>File</span>
+			<%= f.file_field :file %>
+    </div>
+    <div class="file-path-wrapper">
+      <input class="file-path validate" type="text">
+    </div>
+  </div>
+  <%= render 'application/submit_button', text: 'Upload' %>
+<% end %>
