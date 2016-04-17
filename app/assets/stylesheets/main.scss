@@ -48,6 +48,17 @@ footer.page-footer {
     color: $off-black;
     background-color: transparent;
   }
+
+  a {
+  	color: $off-black;
+	  transition: color .3s;
+	  padding: 0 15px;
+
+  	&:hover {
+			background-color: $primary-color-light;
+			color: $primary-color-dark;  		
+  	}
+  }
 }
 
 table.striped > tbody > tr:nth-child(odd) {
