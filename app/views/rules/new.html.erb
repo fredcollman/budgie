@@ -1,2 +1,22 @@
 <h1>New rule</h1>
 <p>Create a rule to automatically perform actions on transactions when they are uploaded.</p>
+
+<%= form_for @rule do |f| %>
+	<div class="input-field">
+		<%= f.label :name, class: ("active" if @rule.name) %>
+		<%= f.text_field :name, length: 30, required: "required" %>
+	</div>
+	<div class="input-field">
+		<%= f.label :matching_regex, class: ("active" if @rule.matching_regex) %>
+		<%= f.text_field :matching_regex, required: "required" %>
+	</div>
+	<div class="input-field">
+		<%= f.select :rule_type, @rule_types %>
+		<%= f.label :rule_type %>
+	</div>
+	<div class="input-field">
+		<%= f.label :tag_name, class: ("active" if @rule.tag_name) %>
+		<%= f.text_field :tag_name, length: 30 %>	
+	</div>
+	<%= render 'application/submit_button', text: 'Add' %>
+<% end %>

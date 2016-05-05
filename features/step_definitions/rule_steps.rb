@@ -3,8 +3,8 @@ Given(/^there is an active rule which tags all new entries with "([^"]*)"$/) do 
   click_link 'Rules'
   click_link 'New'
   fill_in 'rule[name]', with: 'match all'
-  fill_in 'rule[regex]', with: '.*'
-  select 'Add tag', from: 'rule[type]'
+  fill_in 'rule[matching_regex]', with: '.*'
+  select 'Add tag', from: 'rule[rule_type]'
   fill_in 'rule[tag_name]', with: to_add
   click_button 'Add'
 end

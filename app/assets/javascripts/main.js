@@ -14,4 +14,8 @@ $(function() {
 	}
 
 	$(document).on('click', '.new-tag-btn', openTagForm);
+
+	$(document).ready(function() {
+		$('select').material_select();
+	});
 });
