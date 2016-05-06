@@ -1,0 +1,2 @@
+describe Enforcer do
+end

@@ -15,8 +15,16 @@ describe UploadController, type: :controller do
 	  	upload_fake_file
 	  end
 
-	  it 'bulk inserts into the database' do
-	  	expect(Entry).to receive(:insert_many!)
+	  it 'enforces rules' do
+	  	allow(SantanderUploader).to receive_messages(upload: ['entries'])
+	  	allow(Rule).to receive_messages(all: ['rules'])
+	  	expect(Enforcer).to receive(:enforce).with(['rules'], ['entries'])
+	  	upload_fake_file
+	  end
+
+	  it 'bulk inserts into the database after enforcing rules' do
+	  	allow(Enforcer).to receive_messages(enforce: ['updated', 'entries'])
+	  	expect(Entry).to receive(:insert_many!).with(['updated', 'entries'])
 	  	upload_fake_file
 	  end
 	end
