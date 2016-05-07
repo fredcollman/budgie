@@ -8,6 +8,9 @@ class Rule < ActiveRecord::Base
 	end
 
 	def apply_to(entry)
+		if entry.description =~ Regexp.new(matching_regex)
+			entry.tag_with(tag_name)
+		end
 		entry
 	end
 end
