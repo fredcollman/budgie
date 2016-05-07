@@ -7,6 +7,7 @@ describe UploadController, type: :controller do
 		end
 
 		before(:each) do
+  		allow(Enforcer).to receive_messages(enforce: [])
   		allow(Entry).to receive_messages(insert_many!: {inserted: 1, skipped: 0})
 		end
 
