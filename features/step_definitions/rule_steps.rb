@@ -10,7 +10,5 @@ Given(/^there is an active rule which tags all new entries with "([^"]*)"$/) do 
 end
 
 Then(/^the most recent entry should be tagged with "([^"]*)"$/) do |tag|  
-	within 'tr:first-child' do
-		expect(page).to have_css('.tag', tag)
-	end
+	expect(page).to have_css('tr:first-child .tag', tag)
 end
