@@ -13,12 +13,7 @@ class Entry < ActiveRecord::Base
 			skipped = 0
 			entries.each do |entry| 
 				begin
-					create!({
-						date: entry.date,
-						description: entry.description,
-						amount: entry.amount,
-						balance: entry.balance
-					})
+					entry.save!
 				rescue ActiveRecord::RecordInvalid => error
 					raise error unless error.message == "Validation failed: Description has already been taken"
 					skipped += 1
