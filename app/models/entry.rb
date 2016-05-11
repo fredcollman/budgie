@@ -13,12 +13,7 @@ class Entry < ActiveRecord::Base
 			skipped = 0
 			entries.each do |entry| 
 				begin
-					create!({
-						date: entry.date,
-						description: entry.description,
-						amount: entry.amount,
-						balance: entry.balance
-					})
+					entry.save!
 				rescue ActiveRecord::RecordInvalid => error
 					raise error unless error.message == "Validation failed: Description has already been taken"
 					skipped += 1
@@ -27,6 +22,17 @@ class Entry < ActiveRecord::Base
 				end
 			end
 			{ inserted: inserted, skipped: skipped }
+		end
+	end
+
+	def self.modelize(entry_structs)
+		entry_structs.map do |entry_struct| 
+			Entry.new({
+				date: entry_struct.date,
+				description: entry_struct.description,
+				amount: entry_struct.amount,
+				balance: entry_struct.balance
+			})
 		end
 	end
 

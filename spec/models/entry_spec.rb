@@ -63,6 +63,13 @@ describe Entry do
 		end
 	end
 
+	context :modelize do
+		it 'converts compatible objects to entry models' do
+			entry_like = build(:entry)
+			expect(Entry.modelize([entry_like]).first.attributes).to eq entry_like.attributes
+		end
+	end
+
 	context :most_recent do
 		it 'fetches entries' do
 			create(:entry, description: "me")

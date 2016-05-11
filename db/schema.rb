@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160412202455) do
+ActiveRecord::Schema.define(version: 20160505194834) do
 
   create_table "entries", force: :cascade do |t|
     t.date    "date",                                 null: false
@@ -26,6 +26,12 @@ ActiveRecord::Schema.define(version: 20160412202455) do
   end
 
   add_index "entries_tags", ["entry_id", "tag_id"], name: "index_entries_tags_on_entry_id_and_tag_id", unique: true
+
+  create_table "rules", force: :cascade do |t|
+    t.string "name",           limit: 30, null: false
+    t.text   "matching_regex"
+    t.string "tag_name",       limit: 30
+  end
 
   create_table "tags", force: :cascade do |t|
     t.string "name",        limit: 30, null: false
