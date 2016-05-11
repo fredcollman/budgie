@@ -23,7 +23,7 @@ class UploadController < ApplicationController
   end
 
   def upload_file(file)
-  	Entry.insert_many!(Enforcer.enforce(Rule.all, SantanderUploader.upload(file.tempfile)))
+  	Entry.insert_many!(Enforcer.enforce(Rule.all, Entry.modelize(SantanderUploader.upload(file.tempfile))))
   end
 
   def show

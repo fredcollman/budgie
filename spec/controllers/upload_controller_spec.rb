@@ -9,6 +9,7 @@ describe UploadController, type: :controller do
 		before(:each) do
   		allow(Enforcer).to receive_messages(enforce: [])
   		allow(Entry).to receive_messages(insert_many!: {inserted: 1, skipped: 0})
+	  	allow(Entry).to receive_messages(modelize: [])
 		end
 
 	  it 'uploads the file' do
@@ -16,8 +17,13 @@ describe UploadController, type: :controller do
 	  	upload_fake_file
 	  end
 
+	  it 'explicitly converts uploaded entries to entry models' do
+	  	expect(Entry).to receive(:modelize)
+	  	upload_fake_file
+	  end
+
 	  it 'enforces rules' do
-	  	allow(SantanderUploader).to receive_messages(upload: ['entries'])
+	  	allow(Entry).to receive_messages(modelize: ['entries'])
 	  	allow(Rule).to receive_messages(all: ['rules'])
 	  	expect(Enforcer).to receive(:enforce).with(['rules'], ['entries'])
 	  	upload_fake_file

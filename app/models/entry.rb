@@ -30,6 +30,17 @@ class Entry < ActiveRecord::Base
 		end
 	end
 
+	def self.modelize(entry_structs)
+		entry_structs.map do |entry_struct| 
+			Entry.new({
+				date: entry_struct.date,
+				description: entry_struct.description,
+				amount: entry_struct.amount,
+				balance: entry_struct.balance
+			})
+		end
+	end
+
 	def self.most_recent(count, load_tags: false)
 		scope = order(date: :desc, id: :desc).limit(count)
 		scope = scope.includes(:tags) if load_tags
